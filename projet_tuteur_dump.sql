@@ -1107,3 +1107,5 @@ ALTER TABLE ONLY public.taches
 -- PostgreSQL database dump complete
 --
 
+create schema projet_tuteur_v9mg_user; 
+
