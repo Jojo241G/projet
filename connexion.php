@@ -36,7 +36,7 @@ try {
 <?php
 // Inclut le fichier qui établit la connexion à la base de données.
 // C'est la ligne la plus importante à ajouter.
-require_once 'connect.php'; // Assurez-vous que le nom du fichier est correct
+require_once 'connexion_admin.php'; // Assurez-vous que le nom du fichier est correct
 
 // La suite de votre code peut maintenant utiliser la variable $pdo
 // car elle a été créée par le fichier inclus.
