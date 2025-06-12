@@ -1,9 +1,11 @@
 <?php
+// Fichier : connect.php
+// Ce fichier ne fait qu'une seule chose : se connecter à la base de données.
+
 // Récupère l'URL complète de la base de données depuis la variable d'environnement fournie par Render.
-// Cette variable contient DÉJÀ toutes vos informations : utilisateur, mot de passe, hôte, etc.
 $db_url = getenv('DATABASE_URL');
 
-// Si la variable n'est pas trouvée (ce qui ne devrait pas arriver sur Render), on arrête tout.
+// Si la variable n'est pas trouvée, on arrête tout.
 if ($db_url === false) {
     die("Erreur critique : La variable d'environnement DATABASE_URL n'est pas définie. Assurez-vous que la base de données est bien liée au service web dans Render.");
 }
@@ -23,13 +25,10 @@ $dsn = "pgsql:host={$host};port={$port};dbname={$dbname}";
 try {
     // Tente la connexion avec les informations d'identification de Render.
     $pdo = new PDO($dsn, $user, $password);
-
-    // Configure PDO pour qu'il affiche les erreurs SQL (très utile pour le débogage).
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 } catch (PDOException $e) {
     // Si la connexion échoue, le script s'arrête et affiche un message d'erreur.
-    // L'erreur "502 Bad Gateway" est souvent causée par un échec ici.
     die("Erreur de connexion à la base de données : " . $e->getMessage());
 }
 ?>
