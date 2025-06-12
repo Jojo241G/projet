@@ -1,35 +1,42 @@
 <?php
-// Fichier : connect.php
-// Ce fichier ne fait qu'une seule chose : se connecter à la base de données.
+// Connexion à PostgreSQL via la variable d’environnement DATABASE_URL sur Render
 
-// Récupère l'URL complète de la base de données depuis la variable d'environnement fournie par Render.
+// Récupération de l'URL
 $db_url = getenv('DATABASE_URL');
+require_once 'connect.php';
 
-// Si la variable n'est pas trouvée, on arrête tout.
+// Sécurité : on vérifie que la variable est bien définie
 if ($db_url === false) {
-    die("Erreur critique : La variable d'environnement DATABASE_URL n'est pas définie. Assurez-vous que la base de données est bien liée au service web dans Render.");
+    die("❌ Erreur critique : La variable d'environnement DATABASE_URL n'est pas définie.
+    Vérifiez qu'elle est bien ajoutée dans Render (service > Environment).");
 }
 
-// PHP analyse cette URL pour en extraire chaque partie.
+// Analyse l'URL (postgres://user:pass@host:port/dbname)
 $db_parts = parse_url($db_url);
-
-$host = $db_parts['host'];
-$port = $db_parts['port'];
-$dbname = ltrim($db_parts['path'], '/'); // Supprime le premier "/" du nom de la base
-$user = $db_parts['user'];
+$host     = $db_parts['host'];
+$port     = $db_parts['port'] ?? 5432; // Port par défaut PostgreSQL
+$dbname   = ltrim($db_parts['path'], '/'); // Supprime le "/" du nom de base
+$user     = $db_parts['user'];
 $password = $db_parts['pass'];
 
-// Construit la chaîne de connexion (DSN) pour PDO à partir des éléments extraits.
-$dsn = "pgsql:host={$host};port={$port};dbname={$dbname}";
+// Construction de la chaîne DSN pour PDO
+$dsn = "pgsql:host=$host;port=$port;dbname=$dbname";
 
 try {
-    // Tente la connexion avec les informations d'identification de Render.
+    // Connexion via PDO
     $pdo = new PDO($dsn, $user, $password);
+
+    // Active le mode exception pour faciliter le débogage
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+    // Optionnel : UTF-8 par défaut
+    $pdo->exec("SET NAMES 'UTF8'");
+
+    // La variable $pdo est maintenant disponible pour tout le projet
+
 } catch (PDOException $e) {
-    // Si la connexion échoue, le script s'arrête et affiche un message d'erreur.
-    die("Erreur de connexion à la base de données : " . $e->getMessage());
+    // Affiche un message clair en cas d’erreur
+    die("❌ Erreur de connexion à la base PostgreSQL : " . $e->getMessage());
 }
 ?>
 
