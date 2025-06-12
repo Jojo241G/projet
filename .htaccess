@@ -1,0 +1,2 @@
+# Indique à Apache de considérer "login.php" comme la page d'accueil du site.
+DirectoryIndex login.php
