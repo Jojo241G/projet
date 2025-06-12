@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'connexion.php'; // Assurez-vous que ce fichier gère la connexion PDO ($pdo)
+require_once 'connect.php'; // Assurez-vous que ce fichier gère la connexion PDO ($pdo)
 
 // ===================================================================================
 // SECTION 1 : NOUVEAU MOTEUR D'ANALYSE LOCAL (SIMULATION D'IA)

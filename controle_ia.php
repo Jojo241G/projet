@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'connexion.php';
+require_once 'connect.php';
 
 // =================================================================
 // BLOC API : GÈRE LES ACTIONS AJAX DE LA PAGE

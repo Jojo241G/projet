@@ -3,7 +3,7 @@
 session_start();
 
 // On utilise votre fichier de connexion existant
-require_once 'connexion.php';
+require_once 'connect.php';
 
 // =================================================================
 // ROUTEUR PRINCIPAL

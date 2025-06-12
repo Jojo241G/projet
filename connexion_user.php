@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'connexion.php';
+require_once 'connect.php';
 
 // --- NOTE DE SÉCURITÉ IMPORTANTE ---
 // Pour une application professionnelle, il est crucial de ne jamais stocker de mots de passe en clair.

@@ -1,7 +1,7 @@
 <?php
 // Démarrage de la session et connexion à la BD
 session_start();
-require_once 'connexion.php';
+require_once 'connect.php';
 
 // =================================================================
 // PARTIE 1 : TRAITEMENT DES APPELS API (AJAX)

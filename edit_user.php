@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'connexion.php';
+require_once 'connect.php';
 
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     header('Location: connexion_admin.php');

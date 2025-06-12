@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'connexion.php';
+require_once 'connect.php';
 
 // =================================================================================
 // BLOC API POUR L'ANALYSE DE PROJET (appelé par le JavaScript de cette même page)

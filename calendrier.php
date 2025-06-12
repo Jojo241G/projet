@@ -1,7 +1,7 @@
 <?php
 // Démarrage de la session et connexion à la BD
 session_start();
-require_once 'connexion.php';
+require_once 'connect.php';
 
 // =================================================================
 // ROUTEUR PRINCIPAL : Gère les appels API et l'affichage de la page

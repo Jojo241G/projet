@@ -1,7 +1,7 @@
 <?php
 // connexion_admin.php
 session_start();
-require_once 'connexion.php'; // Fichier contenant la connexion PDO à la base de données
+require_once 'connect.php'; // Fichier contenant la connexion PDO à la base de données
 
 // --- NOTE DE SÉCURITÉ IMPORTANTE ---
 // Le code ci-dessous compare des mots de passe en clair.

@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'connexion.php';
+require_once 'connect.php';
 
 // ===================================================================================
 // SECTION 0 : VÉRIFICATION DE L'UTILISATEUR (SÉCURITÉ)

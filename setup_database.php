@@ -4,7 +4,7 @@
 // À n'exécuter qu'une seule fois !
 
 // 1. On inclut notre fichier de connexion
-require_once 'connexion.php';
+require_once 'connect.php';
 
 echo "Connexion à la base de données réussie.<br>";
 

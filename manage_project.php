@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'connexion.php';
+require_once 'connect.php';
 
 // --- Sécurité et Autorisation ---
 // Seuls les admins et les chefs peuvent accéder à cette page

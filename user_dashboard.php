@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'connexion.php';
+require_once 'connect.php';
 
 // --- Sécurité et Vérification de la session ---
 if (!isset($_SESSION['user_id'])) {

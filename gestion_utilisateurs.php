@@ -1,7 +1,7 @@
 <?php
 session_start();
 // La ligne ci-dessous inclut votre fichier et rend la variable $pdo disponible
-require_once 'connexion.php';
+require_once 'connect.php';
 
 // ===================================================================================
 // PARTIE 1 : LOGIQUE PHP (INCHANGÉE)

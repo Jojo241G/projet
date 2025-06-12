@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'connexion.php';
+require_once 'connect.php';
 
 // ===================================================================================
 // PARTIE 1 : LOGIQUE PHP POUR LES PARAMÈTRES
