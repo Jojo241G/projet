@@ -13,9 +13,9 @@ services:
   db:
     image: postgres:15
     environment:
-      POSTGRES_DB: projet_tuteur
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: jojo
+      POSTGRES_DB: projet_php
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: motdepasse
     ports:
       - "5432:5432"
     volumes:
