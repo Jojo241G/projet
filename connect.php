@@ -1,37 +1,47 @@
 <?php
-// connexion.php - Utilisation de PDO pour la connexion à PostgreSQL
+// Fichier de connexion à PostgreSQL sur Render (connect.php)
 
-// Paramètres de connexion à la base de données PostgreSQL
-$host = "localhost";
-$dbname = "projet_tuteur"; // Votre nom de base de données
-$user = "postgres";      // Votre utilisateur PostgreSQL
-$password = "jojo";     // Votre mot de passe PostgreSQL (Vérifiez-le bien !)
-$port = "5432";          // Port par défaut de PostgreSQL
+// 1. Récupération de l'URL de la base de données depuis les variables d'environnement
+$db_url = getenv('DATABASE_URL');
 
-// DSN (Data Source Name) pour PDO PostgreSQL
-$dsn = "pgsql:host=$host;port=$port;dbname=$dbname;user=$user;password=$password";
+// 2. Sécurité : Vérification que la variable est bien définie
+if ($db_url === false) {
+    // Si l'application ne trouve pas la variable, on arrête tout avec un message clair.
+    // Cela aide énormément à déboguer les déploiements.
+    die("❌ Erreur critique : La variable d'environnement DATABASE_URL n'est pas définie.
+         Vérifiez qu'elle est bien ajoutée dans l'onglet 'Environment' de votre service sur Render.");
+}
 
-$pdo = null; // Initialise $pdo à null par défaut
+// 3. Analyse de l'URL pour en extraire les composants
+$db_parts = parse_url($db_url);
+
+$host     = $db_parts['host'];
+$port     = $db_parts['port'] ?? 5432; // Port par défaut de PostgreSQL si non spécifié
+$dbname   = ltrim($db_parts['path'], '/');
+$user     = $db_parts['user'];
+$password = $db_parts['pass'];
+
+// 4. Construction de la chaîne DSN (Data Source Name) pour PDO
+//    On ajoute sslmode=require pour assurer une connexion sécurisée, comme recommandé par Render.
+$dsn = "pgsql:host=$host;port=$port;dbname=$dbname;sslmode=require";
 
 try {
-    // Tenter d'établir la connexion PDO
-    $pdo = new PDO($dsn);
+    // 5. Création de l'instance de connexion PDO
+    $pdo = new PDO($dsn, $user, $password);
 
-    // Configurer les attributs de PDO pour de meilleures pratiques
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // Lève des exceptions en cas d'erreur
-    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC); // Récupère les résultats en tableaux associatifs
-    $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false); // Désactive l'émulation des requêtes préparées (meilleure sécurité)
+    // Configuration des attributs de PDO pour un meilleur comportement
+    // Active le mode d'erreur par exception pour un débogage plus simple
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // Assure que les requêtes et résultats sont par défaut en UTF-8
+    $pdo->exec("SET NAMES 'UTF8'");
 
-    // Optionnel : Définir l'encodage des caractères (déjà géré par PDO DSN généralement)
-    // $pdo->exec("SET NAMES 'UTF8'");
-
-    // Message de succès (à retirer en production)
-    // echo "Connexion PDO à la base de données réussie !";
+    // Si on arrive ici, la connexion est réussie !
+    // La variable $pdo est maintenant prête à être utilisée dans les autres fichiers de votre projet.
+    // Exemple : require_once 'connect.php'; $query = $pdo->query('SELECT * FROM users');
 
 } catch (PDOException $e) {
-    // Gérer l'erreur de connexion PDO
-    // En production, loguez l'erreur et affichez un message générique.
-    error_log("Erreur de connexion PDO à la base de données : " . $e->getMessage());
-    die("Désolé, impossible de se connecter à la base de données pour le moment. Veuillez réessayer plus tard.");
+    // En cas d'échec de la connexion, on affiche un message d'erreur clair et on arrête le script.
+    die("❌ Erreur de connexion à la base de données PostgreSQL : " . $e->getMessage());
 }
+
 ?>
